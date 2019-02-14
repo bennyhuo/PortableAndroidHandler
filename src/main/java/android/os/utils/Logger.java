@@ -6,7 +6,17 @@ import java.util.Date;
 public class Logger {
     private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG;
+
+    static {
+        boolean isDebug = false;
+        try {
+            isDebug = Logger.class.getClassLoader().getResource("logger/debug") != null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        DEBUG = isDebug;
+    }
 
     public static void debug(Object msg, Object ... args){
         if(DEBUG){
@@ -42,4 +52,7 @@ public class Logger {
         return buf.toString();
     }
 
+    public static void main(String... args) {
+        debug("Output nothing.");
+    }
 }

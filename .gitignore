@@ -25,4 +25,7 @@ hs_err_pid*
 .idea
 build
 *.iml
+out
+
 local.properties
+jcenter.properties
