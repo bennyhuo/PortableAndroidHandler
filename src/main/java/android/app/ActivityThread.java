@@ -1,4 +1,8 @@
-package android.os;
+package android.app;
+
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 
 public class ActivityThread {
 
@@ -14,6 +18,7 @@ public class ActivityThread {
             @Override
             public void run() {
                 super.run();
+
                 for (int i = 0; i < 5; i++) {
                     try {
                         sleep(2000);

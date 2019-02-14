@@ -34,11 +34,17 @@ public final class Looper {
         while(true) {
             Message msg = queue.next();
             if (msg == null) {
-                continue;
+                return;
             }
             msg.target.dispatchMessage(msg);
         }
     }
 
-    public void quit(){ messageQueue.quit(); }
+    public void quit(){
+        messageQueue.quit(false);
+    }
+
+    public void quitSafely() {
+        messageQueue.quit(true);
+    }
 }
