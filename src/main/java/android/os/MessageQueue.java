@@ -13,7 +13,12 @@ public class MessageQueue {
     private DelayQueue<Message> queue = new DelayQueue<>();
 
     public void enqueueMessage(Message msg) {
+        if(isQuited){
+            msg.recycle();
+            return;
+        }
         queue.add(msg);
+        msg.markInUse();
     }
 
     public Message next() {
@@ -36,7 +41,11 @@ public class MessageQueue {
         queue.removeIf(new Predicate<Message>() {
             @Override
             public boolean test(Message message) {
-                return message.target == h && message.what == what && (object == null || message.obj == object);
+                boolean shouldRemove = message.target == h && message.what == what && (object == null || message.obj == object);
+                if(shouldRemove){
+                    message.recycleUnchecked();
+                }
+                return shouldRemove;
             }
         });
     }
@@ -48,7 +57,11 @@ public class MessageQueue {
         queue.removeIf(new Predicate<Message>() {
             @Override
             public boolean test(Message message) {
-                return message.target == h && message.callback == r && (object == null || message.obj == object);
+                boolean shouldRemove = message.target == h && message.callback == r && (object == null || message.obj == object);
+                if(shouldRemove){
+                    message.recycleUnchecked();
+                }
+                return shouldRemove;
             }
         });
     }
@@ -61,7 +74,11 @@ public class MessageQueue {
         queue.removeIf(new Predicate<Message>() {
             @Override
             public boolean test(Message message) {
-                return message.target == h && (object == null || message.obj == object);
+                boolean shouldRemove = message.target == h && (object == null || message.obj == object);
+                if(shouldRemove){
+                    message.recycleUnchecked();
+                }
+                return shouldRemove;
             }
         });
     }

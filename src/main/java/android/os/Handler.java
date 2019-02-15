@@ -68,4 +68,68 @@ public class Handler {
     public final void removeCallbacksAndMessages(Object token) {
         mQueue.removeCallbacksAndMessages(this, token);
     }
+
+    /**
+     * Returns a new {@link android.os.Message Message} from the global message pool. More efficient than
+     * creating and allocating new instances. The retrieved message has its handler set to this instance (Message.target == this).
+     *  If you don't want that facility, just call Message.obtain() instead.
+     */
+    public final Message obtainMessage()
+    {
+        return Message.obtain(this);
+    }
+
+    /**
+     * Same as {@link #obtainMessage()}, except that it also sets the what member of the returned Message.
+     *
+     * @param what Value to assign to the returned Message.what field.
+     * @return A Message from the global message pool.
+     */
+    public final Message obtainMessage(int what)
+    {
+        return Message.obtain(this, what);
+    }
+
+    /**
+     *
+     * Same as {@link #obtainMessage()}, except that it also sets the what and obj members
+     * of the returned Message.
+     *
+     * @param what Value to assign to the returned Message.what field.
+     * @param obj Value to assign to the returned Message.obj field.
+     * @return A Message from the global message pool.
+     */
+    public final Message obtainMessage(int what, Object obj)
+    {
+        return Message.obtain(this, what, obj);
+    }
+
+    /**
+     *
+     * Same as {@link #obtainMessage()}, except that it also sets the what, arg1 and arg2 members of the returned
+     * Message.
+     * @param what Value to assign to the returned Message.what field.
+     * @param arg1 Value to assign to the returned Message.arg1 field.
+     * @param arg2 Value to assign to the returned Message.arg2 field.
+     * @return A Message from the global message pool.
+     */
+    public final Message obtainMessage(int what, int arg1, int arg2)
+    {
+        return Message.obtain(this, what, arg1, arg2);
+    }
+
+    /**
+     *
+     * Same as {@link #obtainMessage()}, except that it also sets the what, obj, arg1,and arg2 values on the
+     * returned Message.
+     * @param what Value to assign to the returned Message.what field.
+     * @param arg1 Value to assign to the returned Message.arg1 field.
+     * @param arg2 Value to assign to the returned Message.arg2 field.
+     * @param obj Value to assign to the returned Message.obj field.
+     * @return A Message from the global message pool.
+     */
+    public final Message obtainMessage(int what, int arg1, int arg2, Object obj)
+    {
+        return Message.obtain(this, what, arg1, arg2, obj);
+    }
 }

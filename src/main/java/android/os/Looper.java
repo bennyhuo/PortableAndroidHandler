@@ -37,6 +37,7 @@ public final class Looper {
                 return;
             }
             msg.target.dispatchMessage(msg);
+            msg.recycleUnchecked();
         }
     }
 
