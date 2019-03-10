@@ -21,3 +21,7 @@ Looper.prepare();
 Looper.loop();
 //unreachable unless you quit the looper.
 ```
+
+# Reference
+
+This library is mentioned in my Android Interview Tutorials: [破解Android高级面试](https://s.imooc.com/SBS30PR)
