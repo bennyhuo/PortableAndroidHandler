@@ -1,46 +1,62 @@
 package android.os;
 
-import android.os.utils.Logger;
-
 public class Handler {
     private MessageQueue mQueue;
+    private Callback mCallback;
 
     public Handler() {
         this(Looper.myLooper());
     }
 
     public Handler(Looper looper) {
-        this.mQueue = looper.getQueue();
+        this(looper, null);
     }
 
-    public final void sendMessage(Message msg){
+    public Handler(Looper looper, Callback callback) {
+        this.mQueue = looper.getQueue();
+        this.mCallback = callback;
+    }
+
+    public final void sendMessage(Message msg) {
         sendMessageDelayed(msg, 0L);
     }
 
-    public final void sendMessageDelayed(Message msg, long delay){
+    public final void sendMessageDelayed(Message msg, long delay) {
         msg.target = this;
         delay = Math.max(delay, 0L);
         msg.when = System.currentTimeMillis() + delay;
-        Logger.debug("sendMessage: %s", msg);
         mQueue.enqueueMessage(msg);
     }
 
-    public final void post(Runnable r){
+    public final void post(Runnable r) {
         postDelayed(r, 0L);
     }
 
-    public final void postDelayed(Runnable r, long delay){
+    public final void postDelayed(Runnable r, long delay) {
         Message msg = new Message();
         msg.callback = r;
         sendMessageDelayed(msg, delay);
     }
 
-    public void handleMessage(Message msg){
+    public void handleMessage(Message msg) {
 
     }
 
-    public final void dispatchMessage(Message msg){
-        handleMessage(msg);
+    private void handleCallback(Message msg) {
+        msg.callback.run();
+    }
+
+    public final void dispatchMessage(Message msg) {
+        if (msg.callback != null) {
+            handleCallback(msg);
+        } else {
+            if (mCallback != null) {
+                if (mCallback.handleMessage(msg)) {
+                    return;
+                }
+            }
+            handleMessage(msg);
+        }
     }
 
     /**
@@ -131,5 +147,17 @@ public class Handler {
     public final Message obtainMessage(int what, int arg1, int arg2, Object obj)
     {
         return Message.obtain(this, what, arg1, arg2, obj);
+    }
+
+    /**
+     * Callback interface you can use when instantiating a Handler to avoid
+     * having to implement your own subclass of Handler.
+     */
+    public interface Callback {
+        /**
+         * @param msg A {@link android.os.Message Message} object
+         * @return True if no further handling is desired
+         */
+        public boolean handleMessage(Message msg);
     }
 }

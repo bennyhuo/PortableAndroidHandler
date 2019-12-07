@@ -26,6 +26,7 @@ hs_err_pid*
 build
 *.iml
 out
+.gradle
 
 local.properties
 jcenter.properties
