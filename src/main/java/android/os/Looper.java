@@ -4,6 +4,8 @@ public final class Looper {
 
     private static final ThreadLocal<Looper> THREAD_LOCAL = new ThreadLocal<Looper>();
 
+    private static Looper sMainLooper;
+
     private MessageQueue messageQueue;
 
     public static void prepare() {
@@ -11,6 +13,22 @@ public final class Looper {
             throw new RuntimeException("Only one Looper may be created per thread");
         }
         THREAD_LOCAL.set(new Looper());
+    }
+
+    public static void prepareMainLooper() {
+        prepare();
+        synchronized (Looper.class) {
+            if (sMainLooper != null) {
+                throw new IllegalStateException("The main Looper has already been prepared.");
+            }
+            sMainLooper = myLooper();
+        }
+    }
+
+    public static Looper getMainLooper() {
+        synchronized (Looper.class) {
+            return sMainLooper;
+        }
     }
 
     public static Looper myLooper() {

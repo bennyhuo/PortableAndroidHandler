@@ -10,7 +10,7 @@ The project is still working, and most of the Android Handler related apis will 
 It has been deployed to jCenter.
 
 ```
-compile 'com.bennyhuo.java:portable-android-handler:0.2'
+compile 'com.bennyhuo.java:portable-android-handler:0.3'
 ```
 
 First you should setup your own looper thread like what Android does in `ActivityThread`:

@@ -38,7 +38,7 @@ public class ActivityThread {
     }
 
     public static void main(String... args) {
-        Looper.prepare();
+        Looper.prepareMainLooper();
         ActivityThread activityThread = new ActivityThread();
         activityThread.attach();
         Looper.loop();
