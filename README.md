@@ -7,10 +7,10 @@ The project is still working, and most of the Android Handler related apis will 
 
 ## Usage
 
-It has been deployed to jCenter.
+It has been deployed to mavenCentral: 
 
 ```
-implementation("com.bennyhuo.java:portable-android-handler:0.3")
+implementation("com.bennyhuo:portable-android-handler:1.0")
 ```
 
 First you should setup your own looper thread like what Android does in `ActivityThread`:
